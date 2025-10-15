@@ -1,0 +1,35 @@
+﻿@model PlaceMate.Models.Company
+
+@{
+    ViewData["Title"] = "Edit Company";
+}
+
+<h1>Edit Company</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="EditCompany">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="CompanyId" />
+
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label">Company Name</label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CompanyWebsite" class="control-label">Company Website</label>
+                <input asp-for="CompanyWebsite" class="form-control" />
+                <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+                <a asp-action="ManageCompanies" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>  

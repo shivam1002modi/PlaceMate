@@ -1,0 +1,46 @@
+﻿@model IEnumerable<PlaceMate.Models.Company>
+
+@{
+    ViewData["Title"] = "Manage Companies";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Manage Companies</h1>
+    <a asp-action="CreateCompany" asp-controller="Admin" class="btn btn-primary">Add New Company</a>
+</div>
+
+<p>Here you can add, edit, or delete company profiles for the placement seasons.</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Company ID</th>
+            <th>Company Name</th>
+            <th>Website</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var company in Model)
+            {
+                <tr>
+                    <td>@company.CompanyId</td>
+                    <td>@company.CompanyName</td>
+                    <td><a href="@company.CompanyWebsite" target="_blank">@company.CompanyWebsite</a></td>
+                    <td>
+                        <a asp-action="EditCompany" asp-route-id="@company.CompanyId" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="DeleteCompany" asp-route-id="@company.CompanyId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No companies have been added yet.</td>
+            </tr>
+        }
+    </tbody>
+</table>

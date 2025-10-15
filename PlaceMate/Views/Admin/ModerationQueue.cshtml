@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PlaceMate.Models.InterviewExperience>
+
+@{
+    ViewData["Title"] = "Moderation Queue";
+}
+
+<h1>Moderation Queue</h1>
+<p>The following experiences are pending review.</p>
+<hr />
+
+@if (Model.Any())
+{
+    foreach (var experience in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>@experience.Company.CompanyName - @experience.JobRole</h5>
+                <small class="text-muted">Submitted by: @experience.AppUser.Email | Year: @experience.YearOfInterview</small>
+            </div>
+            <div class="card-body">
+                <h6>Technical Questions</h6>
+                <p class="card-text">@experience.TechnicalQuestions</p>
+                <h6>HR Questions</h6>
+                <p class="card-text">@experience.HRQuestions</p>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex">
+                    <form asp-controller="Admin" asp-action="ApproveExperience" asp-route-id="@experience.ExperienceId" method="post" class="mr-2">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-success">Approve</button>
+                    </form>
+
+                    <form asp-controller="Admin" asp-action="RejectExperience" asp-route-id="@experience.ExperienceId" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Reject</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-success text-center">
+        <p>The moderation queue is empty. Great job!</p>
+    </div>
+}

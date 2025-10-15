@@ -1,0 +1,104 @@
+﻿@model IEnumerable<PlaceMate.Models.InterviewExperience>
+
+@{
+    ViewData["Title"] = "Interview Experiences";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Shared Interview Experiences</h1>
+    <p>Browse experiences shared by students and alumni.</p>
+</div>
+
+<div class="card card-body bg-light mb-4">
+    <form asp-controller="Experience" asp-action="Index" method="get">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Search Keyword</label>
+                    <input type="text" name="searchTerm" class="form-control" placeholder="e.g., 'Array' or 'Python'" value="@Context.Request.Query["searchTerm"]" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Company</label>
+                    <select name="companyId" class="form-control" asp-items="@(new SelectList(ViewBag.Companies, "CompanyId", "CompanyName"))">
+                        <option value="">All Companies</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Job Role</label>
+                    <select name="jobRole" class="form-control" asp-items="@(new SelectList(ViewBag.JobRoles))">
+                        <option value="">All Roles</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Year</label>
+                    <select name="year" class="form-control" asp-items="@(new SelectList(ViewBag.Years))">
+                        <option value="">All Years</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <div class="form-group w-100">
+                    <button type="submit" class="btn btn-primary btn-block">Filter</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-right">
+                <a asp-action="Index" asp-controller="Experience" class="btn btn-sm btn-secondary">Clear All Filters</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="row">
+    @if (Model.Any())
+    {
+        foreach (var experience in Model)
+        {
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">@experience.Company.CompanyName - @experience.JobRole</h5>
+                        <small>Interview Year: @experience.YearOfInterview | Submitted by: @experience.AppUser.Email.Split('@')[0]</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5>Technical Questions</h5>
+                                <p>@experience.TechnicalQuestions</p>
+
+                                <h5>HR Questions</h5>
+                                <p>@experience.HRQuestions</p>
+
+                                @if (!string.IsNullOrEmpty(experience.TipsForJuniors))
+                                {
+                                    <h5>Tips for Juniors</h5>
+                                    <p>@experience.TipsForJuniors</p>
+                                }
+                            </div>
+                            <div class="col-md-3 text-center text-md-right">
+                                <h5>Difficulty</h5>
+                                <p class="h2">@experience.InterviewDifficulty / 5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <p>No interview experiences match your criteria. Try broadening your search!</p>
+            </div>
+        </div>
+    }
+</div>

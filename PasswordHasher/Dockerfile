@@ -4,29 +4,27 @@
 # For more information, please see https://aka.ms/containercompat
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
+FROM mcr.microsoft.com/dotnet/runtime:3.1 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["PlaceMate/PlaceMate.csproj", "PlaceMate/"]
-RUN dotnet restore "./PlaceMate/PlaceMate.csproj"
+COPY ["PasswordHasher/PasswordHasher.csproj", "PasswordHasher/"]
+RUN dotnet restore "./PasswordHasher/PasswordHasher.csproj"
 COPY . .
-WORKDIR "/src/PlaceMate"
-RUN dotnet build "./PlaceMate.csproj" -c %BUILD_CONFIGURATION% -o /app/build
+WORKDIR "/src/PasswordHasher"
+RUN dotnet build "./PasswordHasher.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./PlaceMate.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./PasswordHasher.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "PlaceMate.dll"]
+ENTRYPOINT ["dotnet", "PasswordHasher.dll"]

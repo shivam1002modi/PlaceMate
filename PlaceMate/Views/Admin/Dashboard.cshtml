@@ -1,0 +1,77 @@
+﻿@model PlaceMate.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Admin Dashboard</h1>
+    <p>Platform statistics and management tools.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary h-100">
+            <div class="card-body">
+                <h5 class="card-title">Total Experiences</h5>
+                <p class="card-text display-4">@Model.TotalExperiences</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning h-100">
+            <div class="card-body">
+                <h5 class="card-title">Pending Approval</h5>
+                <p class="card-text display-4">@Model.PendingExperiences</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info h-100">
+            <div class="card-body">
+                <h5 class="card-title">Total Companies</h5>
+                <p class="card-text display-4">@Model.TotalCompanies</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-secondary h-100">
+            <div class="card-body">
+                <h5 class="card-title">Total Students</h5>
+                <p class="card-text display-4">@Model.TotalStudents</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <h4>Top 5 Companies by Submissions</h4>
+        @if (Model.TopCompanies.Any())
+        {
+            <ul class="list-group">
+                @foreach (var company in Model.TopCompanies)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @company.Key
+                        <span class="badge badge-primary badge-pill">@company.Value</span>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No experiences have been submitted yet.</p>
+        }
+    </div>
+    <div class="col-md-4">
+        <h4>Management Tools</h4>
+        <div class="list-group">
+            <a asp-controller="Admin" asp-action="ManageCompanies" class="list-group-item list-group-item-action">Manage Companies</a>
+            <a asp-controller="Admin" asp-action="ModerationQueue" class="list-group-item list-group-item-action">Moderation Queue</a>
+            <a asp-controller="Admin" asp-action="CreateUser" class="list-group-item list-group-item-action">Create New User</a>
+        </div>
+    </div>
+</div>

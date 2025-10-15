@@ -1,0 +1,31 @@
+﻿@model PlaceMate.Models.Company
+
+@{
+    ViewData["Title"] = "Delete Company";
+}
+
+<h1>Delete Company</h1>
+<h3 class="text-danger">Are you sure you want to permanently delete this?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Company Name
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+        <dt class="col-sm-3">
+            Company Website
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CompanyWebsite)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteCompany">
+        <input type="hidden" asp-for="CompanyId" />
+        <input type="submit" value="Yes, Delete" class="btn btn-danger" />
+        <a asp-action="ManageCompanies" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

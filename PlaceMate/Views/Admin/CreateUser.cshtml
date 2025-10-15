@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Create New User";
+}
+
+<h2>Create a New User Account</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-controller="Admin" asp-action="CreateUser" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" name="email" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="role">User Role</label>
+                <select name="role" class="form-control">
+                    <option value="Student">Student</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create User" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

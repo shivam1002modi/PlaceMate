@@ -1,0 +1,72 @@
+﻿@model PlaceMate.Models.InterviewExperience
+
+@{
+    ViewData["Title"] = "Share Your Experience";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-controller="Experience" asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="CompanyId" class="control-label">Company</label>
+                <select asp-for="CompanyId" class="form-control" asp-items="@ViewBag.Companies">
+                    <option value="">-- Select Company --</option>
+                </select>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="JobRole" class="control-label"></label>
+                <input asp-for="JobRole" class="form-control" placeholder="e.g., Software Engineer Intern" />
+                <span asp-validation-for="JobRole" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="YearOfInterview" class="control-label"></label>
+                <input asp-for="YearOfInterview" class="form-control" type="number" placeholder="e.g., 2025" />
+                <span asp-validation-for="YearOfInterview" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InterviewDifficulty" class="control-label"></label>
+                <select asp-for="InterviewDifficulty" class="form-control">
+                    <option value="">-- Select Difficulty --</option>
+                    <option value="1">1 (Very Easy)</option>
+                    <option value="2">2 (Easy)</option>
+                    <option value="3">3 (Average)</option>
+                    <option value="4">4 (Hard)</option>
+                    <option value="5">5 (Very Hard)</option>
+                </select>
+                <span asp-validation-for="InterviewDifficulty" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TechnicalQuestions" class="control-label"></label>
+                <textarea asp-for="TechnicalQuestions" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="TechnicalQuestions" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="HRQuestions" class="control-label"></label>
+                <textarea asp-for="HRQuestions" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="HRQuestions" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TipsForJuniors" class="control-label"></label>
+                <textarea asp-for="TipsForJuniors" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="TipsForJuniors" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit for Review" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
